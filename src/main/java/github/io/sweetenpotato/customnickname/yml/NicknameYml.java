@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class NicknameYml {
 
-    static HashMap<OfflinePlayer, String> customNicknameMap;
+    static HashMap<OfflinePlayer, String> customNicknameMap = new HashMap<>();
     static File customNicknameFile;
     static FileConfiguration config;
 
@@ -44,10 +44,18 @@ public class NicknameYml {
     }
 
     public static boolean doesPlayerHaveCustomNickname(Player player) {
+        if (customNicknameMap.isEmpty()) {
+            return false;
+        }
         return customNicknameMap.containsKey(player);
     }
 
-    public static boolean doesCustomNicknameExist(String nickname) { return customNicknameMap.containsValue(nickname); }
+    public static boolean doesCustomNicknameExist(String nickname) {
+        if (customNicknameMap.isEmpty()) {
+            return false;
+        }
+        return customNicknameMap.containsValue(nickname);
+    }
 
     public static void setCustomNickname(OfflinePlayer player, String nickname) {
         customNicknameMap.put(player, nickname);
@@ -58,13 +66,15 @@ public class NicknameYml {
     }
 
     public static void saveCustomNicknameYml() {
-        for(Map.Entry<OfflinePlayer, String> entry : customNicknameMap.entrySet()) {
-            config.set(entry.getKey().getUniqueId().toString(), entry.getValue());
-        }
-        try {
-            config.save(customNicknameFile);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!customNicknameMap.isEmpty()) {
+            for(Map.Entry<OfflinePlayer, String> entry : customNicknameMap.entrySet()) {
+                config.set(entry.getKey().getUniqueId().toString(), entry.getValue());
+            }
+            try {
+                config.save(customNicknameFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

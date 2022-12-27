@@ -1,7 +1,7 @@
 name: CustomNickname
 version: '${project.version}'
 main: github.io.sweetenpotato.customnickname.Main
-api-version: 1.19.3
+api-version: 1.19
 prefix: CustomNickname
 authors: [ sweetenpotato ]
 description: Custom Nickname Plugin for Spigot Minecraft Server.

@@ -21,7 +21,7 @@ public class CustomNicknameCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (args[1] == null) {
+            if (args.length == 1) {
                 if (args[0] != null) {
                     if (!args[0].equals("x")) {
                         if (args[0].length() >= 2) {
