@@ -1,0 +1,25 @@
+name: CustomNickname
+version: '${project.version}'
+main: github.io.sweetenpotato.customnickname.Main
+api-version: 1.19.3
+prefix: CustomNickname
+authors: [ sweetenpotato ]
+description: Custom Nickname Plugin for Spigot Minecraft Server.
+website: https://sweetenpotato.github.io
+commands:
+  customnickname:
+    aliases:
+      - nickname
+      - customname
+      - customnick
+      - nick
+      - name
+      - customn
+      - cname
+      - cnick
+      - nname
+      - namen
+      - cn
+      - n
+      - nn
+      - cnn
