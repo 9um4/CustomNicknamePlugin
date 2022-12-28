@@ -35,7 +35,9 @@ public class NicknameYml {
         }
         FileConfiguration customNicknameConfig = YamlConfiguration.loadConfiguration(customNicknameFile);
         for (String uuid : customNicknameConfig.getKeys(false)) {
-            customNicknameMap.put(plugin.getServer().getOfflinePlayer(UUID.fromString(uuid)), customNicknameConfig.getString(uuid));
+            OfflinePlayer player = plugin.getServer().getOfflinePlayer(UUID.fromString(uuid));
+            String nickname = customNicknameConfig.getString(uuid);
+            customNicknameMap.put(player, nickname);
         }
     }
 
@@ -43,8 +45,8 @@ public class NicknameYml {
         return customNicknameMap.get(player);
     }
 
-    public static boolean doesPlayerHaveCustomNickname(Player player) {
-        if (customNicknameMap.isEmpty()) {
+    public static boolean doesPlayerHaveCustomNickname(OfflinePlayer player) {
+        if ((customNicknameMap.isEmpty()) || (customNicknameMap.get(player) == "x")) {
             return false;
         }
         return customNicknameMap.containsKey(player);
@@ -62,13 +64,14 @@ public class NicknameYml {
     }
 
     public static void delCustomNickname(OfflinePlayer player) {
-        customNicknameMap.remove(player);
+        customNicknameMap.put(player, "x");
     }
 
     public static void saveCustomNicknameYml() {
         if (!customNicknameMap.isEmpty()) {
             for(Map.Entry<OfflinePlayer, String> entry : customNicknameMap.entrySet()) {
-                config.set(entry.getKey().getUniqueId().toString(), entry.getValue());
+                if (entry.getValue() != "x") config.set(entry.getKey().getUniqueId().toString(), entry.getValue());
+                else config.set(entry.getKey().getUniqueId().toString(), null);
             }
             try {
                 config.save(customNicknameFile);
@@ -76,6 +79,7 @@ public class NicknameYml {
                 e.printStackTrace();
             }
         }
+        //TODO 해시맵에 있었으나 삭제한 플레이어의 경우 yml 저장시 삭제
     }
 
 }

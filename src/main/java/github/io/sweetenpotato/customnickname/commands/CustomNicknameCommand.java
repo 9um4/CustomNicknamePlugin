@@ -22,13 +22,15 @@ public class CustomNicknameCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 1) {
-                if (args[0] != null) {
+                if (args[0].length() >= 1) {
                     if (!args[0].equals("x")) {
                         if (args[0].length() >= 2) {
                             if (!NicknameYml.doesCustomNicknameExist(args[0])) {
                                 NicknameYml.setCustomNickname(player, args[0]);
                                 player.setPlayerListName(args[0]);
                                 player.setDisplayName(args[0]);
+                                player.setCustomName(args[0]);
+                                player.setCustomNameVisible(true);
                                 player.sendMessage(String.format("[%s] 서버에서 사용할 닉네임을 %s로 설정하였습니다.", this.infoPrefix, args[0]));
                             }
                             else {
@@ -44,6 +46,8 @@ public class CustomNicknameCommand implements CommandExecutor {
                             NicknameYml.delCustomNickname(player);
                             player.setPlayerListName(player.getName());
                             player.setDisplayName(player.getName());
+                            player.setCustomName(player.getName());
+                            player.setCustomNameVisible(false);
                             player.sendMessage(String.format("[%s] 서버에서 사용할 닉네임을 원래 닉네임으로 설정하였습니다.", this.infoPrefix));
                         }
                         else {
@@ -60,7 +64,7 @@ public class CustomNicknameCommand implements CommandExecutor {
             }
         }
         else {
-            System.out.println("[%s] 이 명령어는 플레이어만 사용할 수 있습니다.");
+            System.out.println(String.format("[%s] 이 명령어는 플레이어만 사용할 수 있습니다.", this.errorPrefix));
         }
         return true;
     }
